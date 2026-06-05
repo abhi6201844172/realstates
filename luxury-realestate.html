@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURUM RESIDENCES — Where Legends Live</title>
+<meta name="description" content="Ultra Luxury Residences. Starting ₹10 Cr+. Limited Edition Homes Crafted for the Chosen Few.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-Kd65WQwtySDUOSOyOChxPii5XKObFQ7qOv7XK1cWLX6YcLzGyJnkz8O5Y0Gtlb1lF+jtw7ZHsh5XIjGvPdS8vg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+  :root {
+    --black: #0D0D0D;
+    --dark: #121212;
+    --gold: #D4AF37;
+    --gold-light: #F0D060;
+    --gold-dark: #A88A20;
+    --off-white: #F5F5F5;
+    --white: #FFFFFF;
+    --glass-bg: rgba(255,255,255,0.04);
+    --glass-border: rgba(212,175,55,0.2);
+    --text-muted: rgba(245,245,245,0.5);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  #cursor {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--gold); border-radius: 50%;
+    pointer-events: none; z-index: 99999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+  }
+  #cursor-follower {
+    position: fixed; width: 44px; height: 44px;
+    border: 1px solid rgba(212,175,55,0.5); border-radius: 50%;
+    pointer-events: none; z-index: 99998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+  }
+  body:hover #cursor-follower { opacity: 1; }
+
+  /* Page Loader */
+  #loader {
+    position: fixed; inset: 0; background: var(--black);
+    z-index: 99997; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    transition: opacity 0.8s, visibility 0.8s;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; }
+  .loader-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700; letter-spacing: 0.3em;
+    color: var(--gold);
+    animation: shimmer 2s infinite;
+  }
+  .loader-line {
+    width: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin-top: 24px; animation: lineExpand 2s ease-out forwards 0.5s;
+  }
+  .loader-percent {
+    font-size: 0.75rem; letter-spacing: 0.3em; color: var(--text-muted);
+    margin-top: 16px;
+  }
+  @keyframes lineExpand { to { width: 300px; } }
+  @keyframes shimmer {
+    0%,100% { text-shadow: 0 0 20px rgba(212,175,55,0.3); }
+    50% { text-shadow: 0 0 60px rgba(212,175,55,0.8), 0 0 100px rgba(212,175,55,0.3); }
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 24px 60px; display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(180deg, rgba(13,13,13,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(0px);
+    transition: all 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(13,13,13,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 16px 60px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700; letter-spacing: 0.15em;
+    color: var(--gold); text-decoration: none;
+  }
+  .nav-logo span { font-style: italic; color: var(--white); }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: var(--off-white); text-decoration: none;
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    font-weight: 400; transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    padding: 10px 28px; border: 1px solid var(--gold);
+    color: var(--gold); background: transparent;
+    font-family: 'Poppins', sans-serif; font-size: 0.7rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    cursor: none; transition: all 0.3s; font-weight: 500;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+  /* Sections Common */
+  section { padding: 100px 60px; position: relative; }
+  .section-eyebrow {
+    font-size: 0.7rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px; display: block;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    font-weight: 700; line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .section-title-icon {
+    margin-right: 14px;
+    color: var(--gold);
+    font-size: 1.1em;
+    vertical-align: middle;
+    opacity: 0.95;
+  }
+  .gold { color: var(--gold); }
+  /* .italic { font-style: italic; } */
+
+  .gold-line {
+    width: 60px; height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 20px 0;
+  }
+
+  /* HERO */
+  #hero {
+    position: relative; height: 100vh; min-height: 700px;
+    display: flex; align-items: center; justify-content: flex-start;
+    padding: 0 60px; overflow: hidden;
+  }
+  .hero-video-bg {
+    position: absolute; inset: 0; z-index: 0;
+    overflow: hidden;
+  }
+  .hero-video-bg video,
+  .hero-bg-image {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(
+      105deg,
+      rgba(13,13,13,0.92) 0%,
+      rgba(13,13,13,0.7) 40%,
+      rgba(13,13,13,0.3) 70%,
+      rgba(13,13,13,0.15) 100%
+    );
+  }
+  /* Animated gradient orb */
+  .hero-orb {
+    position: absolute; right: -100px; top: 50%; transform: translateY(-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%);
+    z-index: 2; animation: orbPulse 4s ease-in-out infinite;
+  }
+  @keyframes orbPulse {
+    0%,100% { transform: translateY(-50%) scale(1); opacity: 0.6; }
+    50% { transform: translateY(-50%) scale(1.15); opacity: 1; }
+  }
+  .hero-content { position: relative; z-index: 3; max-width: 700px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 20px; border: 1px solid var(--glass-border);
+    background: var(--glass-bg); backdrop-filter: blur(10px);
+    font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 32px;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    opacity: 0; transform: translateY(20px);
+  }
+  .hero-badge .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: blink 2s infinite; }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-weight: 800; line-height: 1.2; margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .hero-title-line { display: block; overflow: hidden; }
+  .hero-title-line span { display: block; transform: translateY(100%); opacity: 0; }
+  .hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-family: 'Playfair Display', serif;
+     color: var(--gold);
+    margin-bottom: 24px; opacity: 0;
+  }
+  .hero-desc {
+    font-size: 0.9rem; color: var(--text-muted); line-height: 1.8;
+    max-width: 480px; margin-bottom: 48px; opacity: 0;
+  }
+  .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; opacity: 0; }
+  .btn-primary {
+    padding: 16px 36px; background: var(--gold);
+    color: var(--black); font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 600; cursor: none; border: none;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .btn-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold-light); transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-outline {
+    padding: 15px 36px; border: 1px solid rgba(245,245,245,0.3);
+    color: var(--off-white); background: transparent;
+    font-family: 'Poppins', sans-serif; font-size: 0.75rem;
+    letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
+    cursor: none; transition: all 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Floating Form */
+  .hero-form {
+    position: absolute; right: 60px; top: 20%;
+    transform: translateY(-50%);
+    width: 340px; z-index: 10;
+    background: linear-gradient(rgba(13,13,13,0.88), rgba(13,13,13,0.88)), url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=640&q=80');
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border);
+    padding: 40px 36px;
+    opacity: 0;
+    color: #fff;
+  }
+  .hero-form::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 600; margin-bottom: 8px;
+  }
+  .form-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 28px; }
+  .form-group { margin-bottom: 16px; }
+  .form-input {
+    width: 100%; padding: 14px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white); font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem; outline: none;
+    transition: border-color 0.3s;
+  }
+  .form-input::placeholder { color: rgba(245,245,245,0.4); }
+  .form-input:focus { border-color: var(--gold); }
+  .form-select {
+    width: 100%; padding: 14px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(245,245,245,0.6); font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem; outline: none; appearance: none;
+    transition: border-color 0.3s; cursor: none;
+  }
+  .form-select option { background: #1a1a1a; color: var(--white); }
+  .form-select:focus { border-color: var(--gold); }
+  .btn-form {
+    width: 100%; padding: 16px; background: var(--gold);
+    color: var(--black); font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; border: none; cursor: none;
+    transition: all 0.3s; margin-top: 8px;
+  }
+  .btn-form:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,175,55,0.3); }
+  .form-privacy { font-size: 0.65rem; color: var(--text-muted); text-align: center; margin-top: 12px; }
+
+  /* Scroll Indicator */
+  .scroll-indicator {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    z-index: 10; opacity: 0.6; animation: fadeUp 1s ease-out 3s both;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 0.6; transform: translateX(-50%) translateY(0); } }
+  .scroll-text { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); }
+  .scroll-mouse {
+    width: 22px; height: 36px; border: 1px solid rgba(212,175,55,0.4); border-radius: 12px;
+    display: flex; justify-content: center; padding-top: 6px;
+  }
+  .scroll-wheel {
+    width: 3px; height: 8px; background: var(--gold); border-radius: 2px;
+    animation: scrollWheel 2s infinite;
+  }
+  @keyframes scrollWheel { 0%,100% { transform: translateY(0); opacity: 1; } 80% { transform: translateY(12px); opacity: 0; } }
+
+  /* Highlights Stats */
+  #highlights {
+    background: var(--dark); border-top: 1px solid rgba(212,175,55,0.1);
+    border-bottom: 1px solid rgba(212,175,55,0.1);
+  }
+  .highlights-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin-top: 60px;
+  }
+  .highlight-card {
+    padding: 48px 40px; border-right: 1px solid rgba(212,175,55,0.1);
+    text-align: center; position: relative; overflow: hidden;
+    transition: background 0.4s;
+  }
+  .highlight-card:last-child { border-right: none; }
+  .highlight-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0); transition: transform 0.4s;
+  }
+  .highlight-card:hover { background: rgba(212,175,55,0.04); }
+  .highlight-card:hover::before { transform: scaleX(1); }
+  .highlight-icon {
+    font-size: 2rem; margin-bottom: 20px; filter: sepia(1) saturate(2) hue-rotate(-10deg);
+  }
+  .highlight-num {
+    font-family: 'Playfair Display', serif; font-size: 3.5rem;
+    font-weight: 700; color: var(--gold); line-height: 1;
+    margin-bottom: 8px;
+  }
+  .highlight-label { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+
+  /* About Section */
+  #about {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center;
+    padding: 120px 60px;
+  }
+  .about-img-wrap {
+    position: relative; height: 600px; overflow: hidden;
+  }
+  .about-img {
+    width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.1); transition: transform 8s ease;
+  }
+  .about-img-wrap:hover .about-img { transform: scale(1.0); }
+  .about-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(13,13,13,0.8) 100%);
+  }
+  .about-img-badge {
+    position: absolute; bottom: 32px; left: 32px;
+    background: var(--glass-bg); backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border); padding: 20px 28px;
+  }
+  .about-img-badge .num { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold); font-weight: 700; }
+  .about-img-badge .txt { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+  .about-content p { color: var(--text-muted); line-height: 1.9; margin-bottom: 20px; }
+  .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+  .about-feature {
+    padding: 20px; border: 1px solid rgba(212,175,55,0.15);
+    background: var(--glass-bg);
+    transition: all 0.3s;
+  }
+  .about-feature:hover { border-color: var(--gold); background: rgba(212,175,55,0.06); }
+  .about-feature-icon { font-size: 1.4rem; margin-bottom: 10px; }
+  .about-feature-title { font-size: 0.8rem; letter-spacing: 0.1em; font-weight: 500; }
+
+  /* Master Plan */
+  #masterplan { background: var(--dark); text-align: center; }
+  .masterplan-container {
+    position: relative; margin-top: 60px; overflow: hidden;
+    border: 1px solid var(--glass-border);
+    cursor: crosshair;
+  }
+  .masterplan-img {
+    width: 100%; height: 500px; object-fit: cover;
+    filter: sepia(0.5) brightness(0.7) saturate(0.8);
+    transition: transform 0.4s;
+  }
+  .masterplan-container:hover .masterplan-img { transform: scale(1.02); }
+  .masterplan-overlay {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(13,13,13,0.8) 100%);
+  }
+  .hotspot {
+    position: absolute; width: 20px; height: 20px; cursor: none;
+  }
+  .hotspot-dot {
+    width: 12px; height: 12px; background: var(--gold); border-radius: 50%;
+    position: absolute; top: 4px; left: 4px;
+    animation: hotspotPulse 2s infinite;
+  }
+  @keyframes hotspotPulse {
+    0% { box-shadow: 0 0 0 0 rgba(212,175,55,0.5); }
+    100% { box-shadow: 0 0 0 16px rgba(212,175,55,0); }
+  }
+  .hotspot-tooltip {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    background: rgba(13,13,13,0.95); border: 1px solid var(--glass-border);
+    padding: 12px 20px; white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity 0.3s; font-size: 0.75rem; letter-spacing: 0.1em;
+  }
+  .hotspot:hover .hotspot-tooltip { opacity: 1; }
+  .masterplan-legend {
+    display: flex; justify-content: center; gap: 32px; margin-top: 32px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--text-muted); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* Amenities */
+  #amenities { padding: 100px 0; overflow: hidden; }
+  .amenities-header {
+    padding: 40px 48px;
+    margin: 0 auto 60px;
+    max-width: 920px;
+    background: rgba(18,18,18,0.95);
+    border: 1px solid rgba(212,175,55,0.18);
+    border-radius: 28px;
+    box-shadow: 0 32px 90px rgba(0,0,0,0.35);
+    backdrop-filter: blur(16px);
+    position: relative;
+  }
+  .amenities-header .section-eyebrow { margin-bottom: 12px; }
+  .amenities-header .section-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .amenities-header .section-title-icon { font-size: 1.3em; }
+  .gold-line { margin: 18px 0 0; }
+  .amenities-track {
+    display: flex; gap: 24px; padding: 0 48px 16px;
+    overflow-x: auto; scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .amenities-track::-webkit-scrollbar { display: none; }
+  .amenity-card {
+    min-width: 280px; padding: 42px 32px; background: var(--dark);
+    border: 1px solid rgba(212,175,55,0.12); flex-shrink: 0;
+    border-radius: 24px;
+    scroll-snap-align: start; position: relative; overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s, border-color 0.4s;
+    cursor: none;
+  }
+  .amenity-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(212,175,55,0.06) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .amenity-card:hover { transform: translateY(-8px); border-color: var(--gold); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+  .amenity-card:hover::before { opacity: 1; }
+  .amenity-icon { font-size: 2.5rem; margin-bottom: 24px; }
+  .amenity-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 12px; }
+  .amenity-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+  .amenity-num {
+    position: absolute; bottom: 24px; right: 24px;
+    font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 800;
+    color: rgba(212,175,55,0.06); line-height: 1; pointer-events: none;
+  }
+
+  /* Floor Plans */
+  #floorplans { background: var(--dark); }
+  .fp-tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(212,175,55,0.15); margin: 48px 0 0; }
+  .fp-tab {
+    padding: 16px 32px; font-size: 0.75rem; letter-spacing: 0.2em;
+    text-transform: uppercase; cursor: none; color: var(--text-muted);
+    border-bottom: 2px solid transparent; transition: all 0.3s; font-weight: 500;
+    background: transparent; border-left: none; border-right: none; border-top: none;
+  }
+  .fp-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .fp-panels { margin-top: 40px; }
+  .fp-panel { display: none; }
+  .fp-panel.active { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .fp-card {
+    background: rgba(13,13,13,0.6); border: 1px solid rgba(212,175,55,0.1);
+    overflow: hidden; transition: all 0.3s; cursor: none;
+  }
+  .fp-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .fp-card-img {
+    width: 100%; height: 220px; background: linear-gradient(135deg, #1a1a1a, #222);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .fp-card-img img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .fp-card-img svg { width: 100%; height: 100%; opacity: 0.6; }
+  .fp-card-body { padding: 24px; }
+  .fp-card-type { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .fp-card-name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 4px; }
+  .fp-card-size { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px; }
+  .fp-card-price { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); font-weight: 600; }
+  .fp-download { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s; cursor: none; }
+  .fp-download:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* Gallery */
+  #gallery { padding: 100px 60px; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 300px);
+    gap: 16px; margin-top: 60px;
+  }
+  .gallery-item {
+    overflow: hidden; position: relative; cursor: none;
+    background: #1a1a1a;
+  }
+  .gallery-item:first-child { grid-column: 1; grid-row: 1 / 3; }
+  .gallery-item:nth-child(4) { grid-column: 3; grid-row: 1 / 3; }
+  .gallery-img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+    filter: brightness(0.8);
+  }
+  .gallery-item:hover .gallery-img { transform: scale(1.08); filter: brightness(1); }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(13,13,13,0.8) 100%);
+    opacity: 0; transition: opacity 0.4s;
+    display: flex; align-items: flex-end; padding: 24px;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .gallery-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+
+  /* Location */
+  #location { background: var(--dark); }
+  .location-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 80px; align-items: start; margin-top: 60px; }
+  .location-map {
+    min-height: 520px; background: linear-gradient(135deg, #1a1a1a, #111);
+    border: 1px solid var(--glass-border); position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .location-iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; border: 0;
+    z-index: 0;
+  }
+  .hero-bg-image {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+  }
+  .location-map::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(13,13,13,0.45);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .map-placeholder-text { color: var(--text-muted); font-size: 0.8rem; letter-spacing: 0.2em; text-align: center; }
+  .map-pin {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%);
+    text-align: center;
+  }
+  .map-pin-dot {
+    width: 16px; height: 16px; background: var(--gold); border-radius: 50%;
+    margin: 0 auto; animation: hotspotPulse 2s infinite;
+  }
+  .map-pin-label {
+    font-size: 0.7rem; letter-spacing: 0.1em; color: var(--gold);
+    margin-top: 8px; white-space: nowrap;
+  }
+  .connectivity-list { list-style: none; }
+  .connectivity-item {
+    display: flex; align-items: center; gap: 20px; padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; transform: translateX(30px);
+  }
+  .connectivity-icon { font-size: 1.5rem; flex-shrink: 0; width: 40px; }
+  .connectivity-name { font-size: 0.85rem; font-weight: 500; flex: 1; }
+  .connectivity-time {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem;
+    color: var(--gold); font-weight: 600;
+  }
+
+  /* Testimonials */
+  #testimonials { padding: 100px 60px; text-align: center; }
+  .testimonials-slider { position: relative; overflow: hidden; margin-top: 60px; }
+  .testimonials-track {
+    display: flex; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .testimonial-card {
+    min-width: 100%; padding: 0 100px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .testimonial-quote {
+    font-family: 'Playfair Display', serif; font-size: 4rem;
+    color: var(--gold); line-height: 1; margin-bottom: 16px; opacity: 0.5;
+  }
+  .testimonial-text {
+    font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2vw, 1.4rem);
+    font-style: italic; line-height: 1.7; color: var(--off-white);
+    max-width: 700px; margin-bottom: 32px;
+  }
+  .testimonial-author { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+  .testimonial-role { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+  .slider-dots { display: flex; justify-content: center; gap: 12px; margin-top: 48px; }
+  .slider-dot {
+    width: 24px; height: 2px; background: rgba(212,175,55,0.3);
+    cursor: none; transition: all 0.3s;
+  }
+  .slider-dot.active { background: var(--gold); width: 48px; }
+
+  /* Developer */
+  #developer { background: var(--dark); }
+  .developer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; margin-top: 60px; }
+  .developer-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px; }
+  .dev-stat { padding: 28px; border: 1px solid rgba(212,175,55,0.15); text-align: center; }
+  .dev-stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold); font-weight: 700; }
+  .dev-stat-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-top: 8px; }
+  .developer-img {
+    height: 500px; position: relative; overflow: hidden;
+  }
+  .developer-img-inner {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #222 50%, #1a1a1a 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .dev-logo { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--gold); letter-spacing: 0.2em; }
+
+  /* FAQ */
+  #faq { padding: 100px 60px; }
+  .faq-list { max-width: 800px; margin: 60px auto 0; }
+  .faq-item { border-bottom: 1px solid rgba(212,175,55,0.15); }
+  .faq-q {
+    padding: 24px 0; display: flex; justify-content: space-between; align-items: center;
+    cursor: none; font-size: 0.95rem; font-weight: 400;
+    transition: color 0.3s;
+  }
+  .faq-q:hover { color: var(--gold); }
+  .faq-icon {
+    width: 24px; height: 24px; border: 1px solid rgba(212,175,55,0.4);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 0.9rem; color: var(--gold);
+    transition: all 0.3s;
+  }
+  .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--gold); color: var(--black); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s;
+    font-size: 0.85rem; color: var(--text-muted); line-height: 1.8;
+  }
+  .faq-item.open .faq-a { max-height: 300px; padding-bottom: 24px; }
+
+  /* Lead Section */
+  #lead {
+    padding: 100px 60px;
+    background: linear-gradient(135deg, var(--dark) 0%, var(--black) 100%);
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  #lead::before {
+    content: ''; position: absolute; top: -50%; left: -50%; right: -50%; bottom: -50%;
+    background: radial-gradient(circle at center, rgba(212,175,55,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .lead-form-wrap {
+    max-width: 600px; margin: 60px auto 0;
+    background: var(--glass-bg); backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border); padding: 60px;
+    position: relative;
+  }
+  .lead-form-wrap::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .lead-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .lead-ctas { display: flex; justify-content: center; gap: 24px; margin-top: 40px; }
+  .cta-wa {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 32px; background: #25D366; color: white;
+    font-family: 'Poppins', sans-serif; font-size: 0.75rem;
+    font-weight: 500; letter-spacing: 0.1em; cursor: none;
+    border: none; transition: all 0.3s; text-decoration: none;
+  }
+  .cta-wa:hover { background: #1ebe57; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,211,102,0.3); }
+  .cta-call {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 32px; background: transparent; color: var(--gold);
+    font-family: 'Poppins', sans-serif; font-size: 0.75rem;
+    font-weight: 500; letter-spacing: 0.1em; cursor: none;
+    border: 1px solid var(--gold); transition: all 0.3s; text-decoration: none;
+  }
+  .cta-call:hover { background: var(--gold); color: var(--black); transform: translateY(-2px); }
+
+  /* Footer */
+  footer {
+    background: var(--black); border-top: 1px solid rgba(212,175,55,0.15);
+    padding: 60px 60px 120px;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px;
+  }
+  .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold); font-weight: 700; letter-spacing: 0.15em; margin-bottom: 16px; }
+  .footer-tagline { font-size: 0.75rem; color: var(--text-muted); line-height: 1.7; max-width: 280px; }
+  .footer-col h4 { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 10px; }
+  .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; cursor: none; }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom { padding: 24px 60px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-size: 0.7rem; color: var(--text-muted); }
+  .rera { font-size: 0.65rem; color: rgba(212,175,55,0.5); letter-spacing: 0.1em; }
+
+  /* Sticky Bar */
+  .sticky-bar {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+    background: rgba(13,13,13,0.98); border-top: 1px solid var(--glass-border);
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .sticky-btn {
+    padding: 16px 8px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 6px;
+    font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--off-white); text-decoration: none; border-right: 1px solid rgba(212,175,55,0.15);
+    cursor: pointer; transition: all 0.3s;
+  }
+  .sticky-btn:last-child { border-right: none; }
+  .sticky-btn:nth-child(2) { background: var(--gold); color: var(--black); font-weight: 600; }
+  .sticky-btn:hover { background: rgba(212,175,55,0.1); }
+  .sticky-btn:nth-child(2):hover { background: var(--gold-light); }
+  .sticky-icon { font-size: 1.2rem; }
+  .sticky-btn i { font-size: 1.2rem; }
+
+  /* Gold divider */
+  .gold-divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
+  }
+
+  /* Reveal animations */
+  .reveal { opacity: 0; transform: translateY(40px); }
+  .reveal.visible { opacity: 1; transform: translateY(0); transition: opacity 0.8s ease, transform 0.8s ease; }
+
+  /* Construction timeline */
+  #construction { background: var(--dark); }
+  .timeline { position: relative; margin-top: 60px; padding-left: 32px; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, var(--gold), rgba(212,175,55,0.1)); }
+  .timeline-item { position: relative; margin-bottom: 48px; }
+  .timeline-dot {
+    position: absolute; left: -40px; top: 4px;
+    width: 16px; height: 16px; background: var(--black);
+    border: 2px solid var(--gold); border-radius: 50%;
+    transition: background 0.3s;
+  }
+  .timeline-item:hover .timeline-dot { background: var(--gold); }
+  .timeline-date { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .timeline-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 8px; }
+  .timeline-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+  .timeline-progress { margin-top: 16px; height: 2px; background: rgba(255,255,255,0.1); }
+  .timeline-bar { height: 100%; background: var(--gold); }
+
+  /* Before/After Slider */
+  .ba-slider { position: relative; overflow: hidden; height: 400px; cursor: ew-resize; margin-top: 48px; }
+  .ba-before, .ba-after { position: absolute; inset: 0; }
+  .ba-before { background: linear-gradient(135deg, #2a2a2a, #1a1a1a); display: flex; align-items: center; justify-content: center; }
+  .ba-after { background: linear-gradient(135deg, #3a3020, #2a2010); display: flex; align-items: center; justify-content: center; clip-path: inset(0 50% 0 0); transition: clip-path 0s; }
+  .ba-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); }
+  .ba-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--gold); cursor: ew-resize; }
+  .ba-handle::before {
+    content: '\f07e'; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px; height: 40px; background: var(--gold); color: var(--black);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; font-size: 1rem; font-weight: 900;
+    font-family: 'Font Awesome 6 Free';
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 32px; }
+    nav.scrolled { padding: 14px 32px; }
+    .nav-links { display: none; }
+    section { padding: 80px 32px; }
+    #hero { padding: 0 32px; }
+    .hero-form { display: none; }
+    #about { grid-template-columns: 1fr; gap: 40px; padding: 80px 32px; }
+    .highlights-grid { grid-template-columns: repeat(2, 1fr); }
+    .highlight-card:nth-child(2) { border-right: none; }
+    .highlight-card:nth-child(3) { border-right: 1px solid rgba(212,175,55,0.1); }
+    .fp-panel.active { grid-template-columns: 1fr 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-item:first-child, .gallery-item:nth-child(4) { grid-column: auto; grid-row: auto; }
+    .location-grid { grid-template-columns: 1fr; }
+    .developer-grid { grid-template-columns: 1fr; }
+    .testimonial-card { padding: 0 32px; }
+    footer { grid-template-columns: 1fr 1fr; gap: 40px; padding: 60px 32px 100px; }
+    .sticky-bar { display: grid; }
+    .lead-form-grid { grid-template-columns: 1fr; }
+    .lead-form-wrap { padding: 40px 24px; }
+    .lead-ctas { flex-direction: column; align-items: center; }
+    .amenities-header { padding: 32px 28px; margin-bottom: 48px; }
+    .amenities-track { padding: 0 28px 16px; gap: 20px; }
+    .amenity-card { min-width: 260px; padding: 36px 28px; }
+  }
+
+  @media (max-width: 640px) {
+    .highlights-grid { grid-template-columns: 1fr; }
+    .highlight-card { border-right: none; border-bottom: 1px solid rgba(212,175,55,0.1); }
+    .fp-panel.active { grid-template-columns: 1fr; }
+    .about-features { grid-template-columns: 1fr; }
+    .developer-stats { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .hero-title { font-size: clamp(2.5rem, 10vw, 4rem); }
+    .amenities-header { padding: 24px 20px; border-radius: 22px; }
+    .amenities-header .section-title { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+    .amenities-track { padding: 0 18px 14px; gap: 16px; }
+    .amenity-card { min-width: 220px; padding: 30px 22px; }
+  }
+
+  @media (max-width: 640px) {
+    .highlights-grid { grid-template-columns: 1fr; }
+    .highlight-card { border-right: none; border-bottom: 1px solid rgba(212,175,55,0.1); }
+    .fp-panel.active { grid-template-columns: 1fr; }
+    .about-features { grid-template-columns: 1fr; }
+    .developer-stats { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .hero-title { font-size: clamp(2.5rem, 10vw, 4rem); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-follower"></div>
+
+<!-- Page Loader -->
+<div id="loader">
+  <div class="loader-brand">AURUM</div>
+  <div class="loader-line"></div>
+  <div class="loader-percent" id="loader-percent">Loading Luxury...</div>
+</div>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">AURUM <span>Residences</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#amenities">Amenities</a></li>
+    <li><a href="#floorplans">Floor Plans</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#location">Location</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('lead').scrollIntoView({behavior:'smooth'})">Enquire Now</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-video-bg">
+    <img class="hero-bg-image" src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1600&q=80" alt="Luxury residence exterior">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-orb"></div>
+
+  <div class="hero-content">
+
+    <h1 class="hero-title">
+      <span class="hero-title-line"><span>Where</span></span>
+      <span class="hero-title-line"><span class="gold italic">Legends Live</span></span>
+    </h1>
+    <p class="hero-subtitle" id="hero-sub">Ultra Luxury Residences — Starting ₹10 Cr+</p>
+    <p class="hero-desc" id="hero-desc">
+      An unprecedented collection of 3, 4 &amp; 5 BHK sky palaces, designed for those who refuse to compromise. Where architectural mastery meets the finest life has to offer.
+    </p>
+    <div class="hero-buttons" id="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('lead').scrollIntoView({behavior:'smooth'})"><i class="fa-solid fa-landmark"></i><span> Schedule Site Visit</span></button>
+      <button class="btn-outline"><i class="fa-solid fa-file-arrow-down"></i><span> Download Brochure</span></button>
+    </div>
+  </div>
+
+  <!-- Floating Enquiry Form -->
+  <div class="hero-form" id="hero-form">
+    <div class="form-title">Book Your <span class="gold">Preview</span></div>
+    <p class="form-sub">Exclusive access for serious buyers only</p>
+    <div class="form-group">
+      <input type="text" class="form-input" placeholder="Full Name">
+    </div>
+    <div class="form-group">
+      <input type="tel" class="form-input" placeholder="Mobile Number">
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-input" placeholder="Email Address">
+    </div>
+    <div class="form-group">
+      <select class="form-select">
+        <option value="" disabled selected>Select Configuration</option>
+        <option>3 BHK — 2,850 sq ft</option>
+        <option>4 BHK — 4,200 sq ft</option>
+        <option>5 BHK Penthouse — 7,500 sq ft</option>
+      </select>
+    </div>
+    <button class="btn-form">Request Private Preview <i class="fa-solid fa-arrow-right"></i></button>
+    <p class="form-privacy"><i class="fa-solid fa-lock"></i> Your information is 100% confidential</p>
+  </div>
+
+  <div class="scroll-indicator">
+    <span class="scroll-text">Scroll to explore</span>
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+  </div>
+</section>
+
+<style>
+@keyframes heroBg { from { opacity: 0.5; transform: scale(1); } to { opacity: 1; transform: scale(1.2); } }
+@keyframes heroBg2 { from { opacity: 0.3; transform: translate(0,0); } to { opacity: 0.7; transform: translate(40px,-20px); } }
+</style>
+
+<!-- PROJECT HIGHLIGHTS -->
+<!-- <section id="highlights">
+  <div style="text-align:center;">
+    <span class="section-eyebrow">The Numbers Speak</span>
+    <h2 class="section-title reveal">A Legacy in <span class="gold italic">Numbers</span></h2>
+    <div class="gold-line" style="margin:20px auto;"></div>
+  </div>
+  <div class="highlights-grid">
+    <div class="highlight-card reveal">
+      <div class="highlight-icon"><i class="fa-solid fa-building-columns"></i></div>
+      <div class="highlight-num" data-target="42">0</div>
+      <div class="highlight-label">Storeys of Grandeur</div>
+    </div>
+    <div class="highlight-card reveal" style="transition-delay:0.1s">
+      <div class="highlight-icon"><i class="fa-solid fa-house-chimney"></i></div>
+      <div class="highlight-num" data-target="248">0</div>
+      <div class="highlight-label">Exclusive Residences</div>
+    </div>
+    <div class="highlight-card reveal" style="transition-delay:0.2s">
+      <div class="highlight-icon"><i class="fa-solid fa-tree-city"></i></div>
+      <div class="highlight-num" data-target="85">0</div>
+      <div class="highlight-label">% Open Green Space</div>
+    </div>
+    <div class="highlight-card reveal" style="transition-delay:0.3s">
+      <div class="highlight-icon"><i class="fa-solid fa-star"></i></div>
+      <div class="highlight-num" data-target="62">0</div>
+      <div class="highlight-label">World-Class Amenities</div>
+    </div>
+  </div>
+</section> -->
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img-wrap reveal">
+    <img class="about-img" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80" alt="About the project">
+    <div class="about-img-overlay"></div>
+    <div class="about-img-badge">
+      <div class="num">₹10Cr+</div>
+      <div class="txt">Starting Price</div>
+    </div>
+  </div>
+  <div class="about-content">
+    <span class="section-eyebrow">About The Project</span>
+    <h2 class="section-title reveal">Crafted for <span class="gold italic">The Chosen</span></h2>
+    <div class="gold-line"></div>
+    <p class="reveal" style="transition-delay:0.1s">AURUM Residences is not a home. It is a statement. Born from the philosophy that true luxury is not about what you have — it is about what surrounds you, every single moment of every single day.</p>
+    <p class="reveal" style="transition-delay:0.2s">Standing 42 storeys tall, each residence is a private sky palace — engineered to the highest international standards, finished with materials sourced from six continents, and conceived by architects whose work adorns the skylines of Dubai, London and Singapore.</p>
+    <div class="about-features">
+      <div class="about-feature reveal">
+        <div class="about-feature-icon"><i class="fa-solid fa-certificate"></i></div>
+        <div class="about-feature-title">RERA Registered</div>
+      </div>
+      <div class="about-feature reveal">
+        <div class="about-feature-icon"><i class="fa-solid fa-earth-americas"></i></div>
+        <div class="about-feature-title">International Architect</div>
+      </div>
+      <div class="about-feature reveal">
+        <div class="about-feature-icon"><i class="fa-solid fa-gem"></i></div>
+        <div class="about-feature-title">Italian Marble Lobby</div>
+      </div>
+      <div class="about-feature reveal">
+        <div class="about-feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="about-feature-title">Smart Home Ready</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- MASTER PLAN -->
+<section id="masterplan">
+  <span class="section-eyebrow">Site Layout</span>
+  <h2 class="section-title reveal">Master <span class="gold italic">Plan</span></h2>
+  <div class="gold-line" style="margin:20px auto;"></div>
+  <p class="reveal" style="color:var(--text-muted);max-width:500px;margin:0 auto 0;">Thoughtfully designed across 12 acres, every element of AURUM serves a singular purpose — to elevate your existence.</p>
+
+  <div class="masterplan-container reveal">
+    <img class="masterplan-img" src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80" alt="Masterplan placeholder">
+      <div class="masterplan-overlay"></div>
+      <!-- Hotspots -->
+      <div class="hotspot" style="top:22%;left:19%;">
+        <div class="hotspot-dot"></div>
+        <div class="hotspot-tooltip">Tower A — 3 BHK Sky Residences</div>
+      </div>
+      <div class="hotspot" style="top:18%;left:38%;">
+        <div class="hotspot-dot"></div>
+        <div class="hotspot-tooltip">Tower B — 4 BHK Ultra Premium</div>
+      </div>
+      <div class="hotspot" style="top:18%;left:56%;">
+        <div class="hotspot-dot"></div>
+        <div class="hotspot-tooltip">Tower C — 5 BHK Penthouses</div>
+      </div>
+      <div class="hotspot" style="top:68%;left:48%;">
+        <div class="hotspot-dot"></div>
+        <div class="hotspot-tooltip">Grand Clubhouse — 40,000 sq ft</div>
+      </div>
+      <div class="hotspot" style="top:72%;left:22%;">
+        <div class="hotspot-dot"></div>
+        <div class="hotspot-tooltip">Infinity Pool &amp; Spa</div>
+      </div>
+    </div>
+  </div>
+  <div class="masterplan-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#D4AF37;"></div> Residential Towers</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(30,80,30,0.9);"></div> Green Zones</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(30,100,180,0.9);"></div> Water Features</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.3);"></div> Internal Roads</div>
+  </div>
+</section>
+
+<!-- AMENITIES -->
+<section id="amenities">
+  <div class="amenities-header">
+    <span class="section-eyebrow">World Class</span>
+    <h2 class="section-title reveal"><i class="fa-solid fa-gem section-title-icon"></i>62 Amenities. <span class="gold italic">Zero Compromises.</span></h2>
+    <div class="gold-line"></div>
+  </div>
+  <div class="amenities-track" id="amenitiesTrack">
+    <div class="amenity-card">
+      <div class="amenity-icon"><i class="fa-solid fa-swimming-pool"></i></div>
+      <div class="amenity-title">Infinity Edge Pool</div>
+      <div class="amenity-desc">Horizon-view infinity pool on Level 35, overlooking the city skyline. Temperature-controlled, open year-round.</div>
+      <div class="amenity-num">01</div>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon"><i class="fa-solid fa-spa"></i></div>
+      <div class="amenity-title">Luxury Spa & Wellness</div>
+      <div class="amenity-desc">Bali-inspired spa with 12 private treatment rooms, steam, sauna, and dedicated wellness concierge.</div>
+      <div class="amenity-num">02</div>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon"><i class="fa-solid fa-dumbbell"></i></div>
+      <div class="amenity-title">24/7 Fitness Centre</div>
+      <div class="amenity-desc">8,000 sq ft state-of-the-art gymnasium with Technogym equipment, personal trainers, and yoga studio.</div>
+      <div class="amenity-num">03</div>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon"><i class="fa-solid fa-film"></i></div>
+      <div class="amenity-title">Private Theatre</div>
+      <div class="amenity-desc">80-seat IMAX-quality home theatre with Dolby Atmos surround sound and premium leather seating.</div>
+      <div class="amenity-num">04</div>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon"><i class="fa-solid fa-utensils"></i></div>
+      <div class="amenity-title">Fine Dining Club</div>
+      <div class="amenity-desc">Residents-only gourmet restaurant helmed by a Michelin-starred chef, with private dining rooms.</div>
+      <div class="amenity-num">05</div>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon"><i class="fa-solid fa-table-tennis-paddle-ball"></i></div>
+      <div class="amenity-title">Sports Complex</div>
+      <div class="amenity-desc">Floodlit tennis courts, squash courts, badminton, cricket net, and multi-sport arena.</div>
+      <div class="amenity-num">06</div>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon"><i class="fa-solid fa-child"></i></div>
+      <div class="amenity-title">Kids' Wonderland</div>
+      <div class="amenity-desc">1.2-acre dedicated children's zone with adventure play, amphitheatre, and supervised activity centre.</div>
+      <div class="amenity-num">07</div>
+    </div>
+    <div class="amenity-card">
+      <div class="amenity-icon"><i class="fa-solid fa-car-side"></i></div>
+      <div class="amenity-title">Car Spa & Concierge</div>
+      <div class="amenity-desc">Dedicated car wash bay, valet parking service, and EV charging stations for every residence.</div>
+      <div class="amenity-num">08</div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOOR PLANS -->
+<section id="floorplans">
+  <span class="section-eyebrow">Configurations</span>
+  <h2 class="section-title reveal">Choose Your <span class="gold italic">Sky Palace</span></h2>
+  <div class="gold-line"></div>
+
+  <div class="fp-tabs">
+    <button class="fp-tab active" onclick="switchTab(0, this)">3 BHK</button>
+    <button class="fp-tab" onclick="switchTab(1, this)">4 BHK</button>
+    <button class="fp-tab" onclick="switchTab(2, this)">5 BHK Penthouse</button>
+  </div>
+
+  <div class="fp-panels">
+    <div class="fp-panel active">
+      <div class="fp-card reveal">
+        <div class="fp-card-img">
+          <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?auto=format&fit=crop&w=800&q=80" alt="3BHK sky residence">
+        </div>
+        <div class="fp-card-body">
+          <div class="fp-card-type">3 Bedroom</div>
+          <div class="fp-card-name">Sky Residence</div>
+          <div class="fp-card-size">2,850 — 3,100 sq ft</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+            <div class="fp-card-price">₹10.2 Cr+</div>
+            <a href="#" class="fp-download">↓ Download Plan</a>
+          </div>
+        </div>
+      </div>
+      <div class="fp-card reveal" style="transition-delay:0.1s">
+        <div class="fp-card-img">
+          <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=800&q=80" alt="3BHK sky residence plus">
+        </div>
+        <div class="fp-card-body">
+          <div class="fp-card-type">3 Bedroom</div>
+          <div class="fp-card-name">Sky Residence Plus</div>
+          <div class="fp-card-size">3,100 — 3,400 sq ft</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+            <div class="fp-card-price">₹11.8 Cr+</div>
+            <a href="#" class="fp-download">↓ Download Plan</a>
+          </div>
+        </div>
+      </div>
+      <div class="fp-card reveal" style="transition-delay:0.2s">
+        <div class="fp-card-img">
+          <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80" alt="Corner sky villa">
+        </div>
+        <div class="fp-card-body">
+          <div class="fp-card-type">3 Bedroom</div>
+          <div class="fp-card-name">Corner Sky Villa</div>
+          <div class="fp-card-size">3,400 — 3,700 sq ft</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+            <div class="fp-card-price">₹13.5 Cr+</div>
+            <a href="#" class="fp-download">↓ Download Plan</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fp-panel">
+      <div class="fp-card reveal">
+        <div class="fp-card-img">
+          <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=800&q=80" alt="4BHK grand residence">
+        </div>
+        <div class="fp-card-body">
+          <div class="fp-card-type">4 Bedroom</div>
+          <div class="fp-card-name">Grand Residence</div>
+          <div class="fp-card-size">4,200 — 4,600 sq ft</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+            <div class="fp-card-price">₹17.5 Cr+</div>
+            <a href="#" class="fp-download">↓ Download Plan</a>
+          </div>
+        </div>
+      </div>
+      <div class="fp-card reveal" style="transition-delay:0.15s">
+        <div class="fp-card-img">
+          <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=800&q=80" alt="4BHK terrace residence">
+        </div>
+        <div class="fp-card-body">
+          <div class="fp-card-type">4 Bedroom</div>
+          <div class="fp-card-name">Terrace Residence</div>
+          <div class="fp-card-size">4,600 — 5,200 sq ft</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+            <div class="fp-card-price">₹20 Cr+</div>
+            <a href="#" class="fp-download">↓ Download Plan</a>
+          </div>
+        </div>
+      </div>
+      <div class="fp-card reveal" style="transition-delay:0.3s">
+        <div class="fp-card-img" style="background:linear-gradient(135deg,#1a1510,#2a2010);">
+          <div style="text-align:center;padding:20px;">
+            <div style="font-family:'Playfair Display',serif;font-size:2rem;color:rgba(212,175,55,0.5);">SOLD</div>
+            <div style="font-size:0.65rem;letter-spacing:0.3em;color:rgba(212,175,55,0.3);margin-top:8px;">LAST 2 UNITS REMAINING</div>
+          </div>
+        </div>
+        <div class="fp-card-body">
+          <div class="fp-card-type">4 Bedroom</div>
+          <div class="fp-card-name">Sky Bungalow</div>
+          <div class="fp-card-size">5,200 — 5,800 sq ft</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+            <div class="fp-card-price">₹24 Cr+</div>
+            <a href="#lead" class="fp-download" style="color:var(--gold);border-color:var(--gold);">Register Interest</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fp-panel">
+      <div class="fp-card reveal" style="grid-column:1/3;">
+        <div class="fp-card-img" style="height:300px;">
+          <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+            <rect x="20" y="20" width="560" height="260" fill="none" stroke="rgba(212,175,55,0.6)" stroke-width="2"/>
+            <rect x="20" y="20" width="200" height="130" fill="rgba(212,175,55,0.08)" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
+            <rect x="220" y="20" width="180" height="130" fill="rgba(212,175,55,0.05)" stroke="rgba(212,175,55,0.3)" stroke-width="1"/>
+            <rect x="400" y="20" width="180" height="130" fill="rgba(212,175,55,0.08)" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
+            <rect x="20" y="150" width="560" height="130" fill="rgba(212,175,55,0.04)" stroke="rgba(212,175,55,0.3)" stroke-width="1"/>
+            <text x="120" y="90" fill="rgba(212,175,55,0.8)" font-size="12" text-anchor="middle" font-family="Poppins">Master Suite</text>
+            <text x="310" y="90" fill="rgba(212,175,55,0.6)" font-size="12" text-anchor="middle" font-family="Poppins">Private Pool Deck</text>
+            <text x="490" y="90" fill="rgba(212,175,55,0.8)" font-size="12" text-anchor="middle" font-family="Poppins">Suite 2</text>
+            <text x="300" y="220" fill="rgba(212,175,55,0.6)" font-size="12" text-anchor="middle" font-family="Poppins">Grand Living · Dining · Kitchen · Library</text>
+          </svg>
+        </div>
+        <div class="fp-card-body">
+          <div class="fp-card-type">5 Bedroom — Duplex Penthouse</div>
+          <div class="fp-card-name">The Aurum Crown</div>
+          <div class="fp-card-size">7,500 — 9,200 sq ft · Private Pool · 360° Views</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+            <div class="fp-card-price" style="font-size:2rem;">₹45 Cr+</div>
+            <a href="#lead" class="fp-download" style="color:var(--gold);border-color:var(--gold);">Request Private Viewing</a>
+          </div>
+        </div>
+      </div>
+      <div class="fp-card reveal" style="transition-delay:0.2s">
+        <div class="fp-card-img">
+          <div style="text-align:center;padding:40px 20px;">
+            <div style="font-size:3rem;margin-bottom:16px;">👑</div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:rgba(212,175,55,0.6);">Ultra-Exclusive</div>
+            <div style="font-size:0.65rem;letter-spacing:0.2em;color:rgba(212,175,55,0.3);margin-top:4px;">ONLY 4 UNITS AVAILABLE</div>
+          </div>
+        </div>
+        <div class="fp-card-body">
+          <div class="fp-card-type">5 Bedroom Sky Villa</div>
+          <div class="fp-card-name">The Presidential</div>
+          <div class="fp-card-size">8,000 sq ft · Private Lift Lobby</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+            <div class="fp-card-price">₹52 Cr+</div>
+            <a href="#lead" class="fp-download" style="color:var(--gold);border-color:var(--gold);">Enquire</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <span class="section-eyebrow">Visual Journey</span>
+  <h2 class="section-title reveal">A World Like <span class="gold italic">No Other</span></h2>
+  <div class="gold-line"></div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80" alt="Grand façade view">
+      <div class="gallery-overlay"><span class="gallery-label">Grand Façade</span></div>
+    </div>
+    <div class="gallery-item">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80&blend=000000&sat=-100" alt="Infinity pool">
+      <div class="gallery-overlay"><span class="gallery-label">Infinity Pool</span></div>
+    </div>
+    <div class="gallery-item">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80" alt="Living space">
+      <div class="gallery-overlay"><span class="gallery-label">Living Space</span></div>
+    </div>
+    <div class="gallery-item">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80&blend=000000&sat=-100" alt="Landscaped gardens">
+      <div class="gallery-overlay"><span class="gallery-label">Landscaped Gardens</span></div>
+    </div>
+    <div class="gallery-item">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80&blend=000000&sat=-100" alt="Fine dining club">
+      <div class="gallery-overlay"><span class="gallery-label">Fine Dining</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <span class="section-eyebrow">Prime Connectivity</span>
+  <h2 class="section-title reveal">At the Heart of <span class="gold italic">Everything</span></h2>
+  <div class="gold-line"></div>
+  <div class="location-grid">
+    <div class="location-map">
+      <iframe class="location-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3504.1009046321462!2d77.01084457557654!3d28.500396082485348!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f411f98ef85%3A0x2e3ebe9f45f28e2f!2sSector%2054%2C%20Gurgaon%2C%20Haryana%20122001%2C%20India!5e0!3m2!1sen!2sus!4v1715151515151" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-pin">
+        <div class="map-pin-dot"></div>
+        <div class="map-pin-label">AURUM Residences</div>
+      </div>
+      <div style="text-align:center;z-index:2;position:relative;">
+        <div style="font-size:0.65rem;letter-spacing:0.3em;color:rgba(212,175,55,0.5);text-transform:uppercase;">Prime Location</div>
+        <div style="font-size:0.7rem;color:rgba(212,175,55,0.3);margin-top:8px;">Sector 54, Gurugram</div>
+      </div>
+    </div>
+    <div>
+      <p style="color:var(--text-muted);line-height:1.8;margin-bottom:32px;font-size:0.9rem;">Strategically located at the nucleus of Gurugram's Golden Mile — walking distance to corporate hubs, minutes from international schools and five-star hotels.</p>
+      <ul class="connectivity-list">
+        <li class="connectivity-item">
+          <div class="connectivity-icon"><i class="fa-solid fa-plane-departure"></i></div>
+          <div class="connectivity-name">IGI Airport</div>
+          <div class="connectivity-time">25 min</div>
+        </li>
+        <li class="connectivity-item">
+          <div class="connectivity-icon"><i class="fa-solid fa-train-subway"></i></div>
+          <div class="connectivity-name">Golf Course Metro</div>
+          <div class="connectivity-time">5 min</div>
+        </li>
+        <li class="connectivity-item">
+          <div class="connectivity-icon"><i class="fa-solid fa-building"></i></div>
+          <div class="connectivity-name">Cyber Hub DLF</div>
+          <div class="connectivity-time">8 min</div>
+        </li>
+        <li class="connectivity-item">
+          <div class="connectivity-icon"><i class="fa-solid fa-school"></i></div>
+          <div class="connectivity-name">GD Goenka / DPS</div>
+          <div class="connectivity-time">10 min</div>
+        </li>
+        <li class="connectivity-item">
+          <div class="connectivity-icon"><i class="fa-solid fa-hospital"></i></div>
+          <div class="connectivity-name">Medanta Hospital</div>
+          <div class="connectivity-time">12 min</div>
+        </li>
+        <li class="connectivity-item">
+          <div class="connectivity-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+          <div class="connectivity-name">Ambience Mall</div>
+          <div class="connectivity-time">7 min</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+<!-- LEAD GENERATION -->
+<section id="lead">
+  <span class="section-eyebrow">Book Now</span>
+  <h2 class="section-title reveal">Begin Your <span class="gold italic">Journey</span></h2>
+  <div class="gold-line" style="margin:20px auto;"></div>
+  <p style="color:var(--text-muted);margin-top:8px;" class="reveal">Limited inventory. Prices increasing on 1st August 2025. Secure your residence today.</p>
+
+  <div class="lead-form-wrap reveal">
+    <div class="lead-form-grid">
+      <input type="text" class="form-input" placeholder="First Name">
+      <input type="text" class="form-input" placeholder="Last Name">
+    </div>
+    <div class="lead-form-grid">
+      <input type="tel" class="form-input" placeholder="Mobile Number">
+      <input type="email" class="form-input" placeholder="Email Address">
+    </div>
+    <div style="margin-bottom:16px;">
+      <select class="form-select">
+        <option value="" disabled selected>Select Your Preference</option>
+        <option>3 BHK — ₹10.2 Cr+</option>
+        <option>4 BHK — ₹17.5 Cr+</option>
+        <option>5 BHK Penthouse — ₹45 Cr+</option>
+        <option>Investment Enquiry</option>
+      </select>
+    </div>
+    <div style="margin-bottom:16px;">
+      <input type="text" class="form-input" placeholder="Your City / Country">
+    </div>
+    <button class="btn-form" style="padding:18px;font-size:0.8rem;">Request Exclusive Site Preview <i class="fa-solid fa-arrow-right"></i></button>
+    <p class="form-privacy" style="margin-top:16px;"><i class="fa-solid fa-lock"></i> All enquiries are strictly confidential · RERA Compliant</p>
+  </div>
+
+  <div class="lead-ctas">
+    <a href="https://wa.me/911234567890" class="cta-wa">
+      <i class="fa-brands fa-whatsapp"></i> WhatsApp Us
+    </a>
+    <a href="tel:+911234567890" class="cta-call">
+      <i class="fa-solid fa-phone"></i> Call Now: +91 98765 43210
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">AURUM</div>
+    <p class="footer-tagline">Where Legends Live. Ultra luxury residences redefining the pinnacle of modern living in India's most prestigious address.</p>
+    <div style="margin-top:24px;display:flex;gap:16px;">
+      <a href="#" style="width:36px;height:36px;border:1px solid rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;font-size:0.9rem;cursor:none;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,175,55,0.2)';this.style.color='var(--text-muted)'"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#" style="width:36px;height:36px;border:1px solid rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;font-size:0.9rem;cursor:none;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,175,55,0.2)';this.style.color='var(--text-muted)'"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="#" style="width:36px;height:36px;border:1px solid rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;font-size:0.9rem;cursor:none;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(212,175,55,0.2)';this.style.color='var(--text-muted)'"><i class="fa-brands fa-youtube"></i></a>
+    </div>
+  </div>
+  <div class="footer-col">
+    <h4>Project</h4>
+    <ul>
+      <li><a href="#about">About AURUM</a></li>
+      <li><a href="#masterplan">Master Plan</a></li>
+      <li><a href="#floorplans">Floor Plans</a></li>
+      <li><a href="#amenities">Amenities</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Information</h4>
+    <ul>
+      <li><a href="#">Brochure Download</a></li>
+      <li><a href="#">RERA Details</a></li>
+      <li><a href="#">Payment Plans</a></li>
+      <li><a href="#">NRI Corner</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Contact</h4>
+    <ul>
+      <li><a href="tel:+911234567890">+91 98765 43210</a></li>
+      <li><a href="mailto:hello@aurumresidences.in">hello@aurumresidences.in</a></li>
+      <li><a href="#">Sales Office: Sector 54, Gurugram</a></li>
+      <li><a href="#">Mon–Sun: 10AM – 7PM</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2025 Aurum Developers Pvt. Ltd. All rights reserved.</span>
+  <span class="rera">RERA: HRERA-0012-2024 | This is a marketing communication. Images are indicative.</span>
+</div>
+
+<!-- Sticky Mobile Bar -->
+<div class="sticky-bar">
+  <a href="tel:+911234567890" class="sticky-btn">
+    <i class="fa-solid fa-phone sticky-icon"></i>
+    Call Now
+  </a>
+  <a href="#lead" class="sticky-btn">
+    <i class="fa-solid fa-star sticky-icon"></i>
+    Enquire
+  </a>
+  <a href="https://wa.me/911234567890" class="sticky-btn">
+    <i class="fa-brands fa-whatsapp sticky-icon"></i>
+</div>
+
+<script>
+// =================== LOADER ===================
+let loadPct = 0;
+const loaderPct = document.getElementById('loader-percent');
+const loaderInterval = setInterval(() => {
+  loadPct += Math.random() * 15;
+  if (loadPct >= 100) {
+    loadPct = 100;
+    clearInterval(loaderInterval);
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+      initAnimations();
+    }, 400);
+  }
+  loaderPct.textContent = Math.floor(loadPct) + '%';
+}, 120);
+
+// =================== CURSOR ===================
+const cursor = document.getElementById('cursor');
+const follower = document.getElementById('cursor-follower');
+let mx = 0, my = 0, fx = 0, fy = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+});
+function animateCursor() {
+  fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
+  follower.style.left = fx + 'px'; follower.style.top = fy + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('button, a, .fp-tab, .faq-q, .slider-dot').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; follower.style.transform = 'translate(-50%,-50%) scale(1.5)'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; follower.style.transform = 'translate(-50%,-50%) scale(1)'; });
+});
+
+// =================== NAVBAR ===================
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// =================== HERO ANIMATIONS ===================
+function initAnimations() {
+  // Hero badge
+  setTimeout(() => {
+    const badge = document.getElementById('hero-badge');
+    badge.style.transition = 'opacity 0.6s, transform 0.6s';
+    badge.style.opacity = '1'; badge.style.transform = 'translateY(0)';
+  }, 200);
+  // Title lines
+  document.querySelectorAll('.hero-title-line span').forEach((el, i) => {
+    setTimeout(() => {
+      el.style.transition = 'transform 0.8s cubic-bezier(0.16,1,0.3,1), opacity 0.8s';
+      el.style.transform = 'translateY(0)'; el.style.opacity = '1';
+    }, 400 + i * 150);
+  });
+  // Subtitle, desc, buttons, form
+  [['hero-sub', 900], ['hero-desc', 1100], ['hero-btns', 1300], ['hero-form', 1500]].forEach(([id, delay]) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) { el.style.transition = 'opacity 0.8s, transform 0.8s'; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }
+    }, delay);
+  });
+  // Hero form initial transform
+  const hf = document.getElementById('hero-form');
+  if (hf) hf.style.transform = 'translateY(-50%) translateX(0)';
+}
+
+// =================== SCROLL REVEALS ===================
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Connectivity items
+const connObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.connectivity-item').forEach((item, i) => {
+        setTimeout(() => {
+          item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          item.style.opacity = '1'; item.style.transform = 'translateX(0)';
+        }, i * 100);
+      });
+      connObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.connectivity-list') .forEach(el => connObserver.observe(el));
+
+// =================== COUNT UP ===================
+function countUp(el) {
+  const target = parseInt(el.getAttribute('data-target'));
+  const duration = 2000;
+  const step = target / (duration / 16);
+  let current = 0;
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) { el.textContent = target + (el.closest('#highlights') ? (target === 85 ? '%' : '+') : '+'); clearInterval(timer); }
+    else { el.textContent = Math.floor(current); }
+  }, 16);
+}
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('[data-target]').forEach(el => countUp(el));
+      countObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('#highlights, #developer').forEach(el => countObserver.observe(el));
+
+// =================== FLOOR PLAN TABS ===================
+function switchTab(index, btn) {
+  document.querySelectorAll('.fp-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.fp-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.fp-panel')[index].classList.add('active');
+}
+
+// =================== TESTIMONIAL SLIDER ===================
+let currentSlide = 0;
+const track = document.getElementById('testimonialTrack');
+function goToSlide(n) {
+  currentSlide = n;
+  track.style.transform = `translateX(-${n * 100}%)`;
+  document.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === n));
+}
+setInterval(() => goToSlide((currentSlide + 1) % 3), 5000);
+
+// =================== FAQ ===================
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// =================== BEFORE/AFTER SLIDER ===================
+const baSlider = document.getElementById('baSlider');
+const baAfter = document.getElementById('baAfter');
+const baHandle = document.getElementById('baHandle');
+let isDragging = false;
+function updateBA(x) {
+  const rect = baSlider.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(100, ((x - rect.left) / rect.width) * 100));
+  baAfter.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+  baHandle.style.left = pct + '%';
+}
+baSlider.addEventListener('mousedown', e => { isDragging = true; updateBA(e.clientX); });
+document.addEventListener('mousemove', e => { if (isDragging) updateBA(e.clientX); });
+document.addEventListener('mouseup', () => { isDragging = false; });
+baSlider.addEventListener('touchstart', e => { isDragging = true; updateBA(e.touches[0].clientX); });
+document.addEventListener('touchmove', e => { if (isDragging) updateBA(e.touches[0].clientX); });
+document.addEventListener('touchend', () => { isDragging = false; });
+
+// =================== AMENITIES SCROLL ===================
+let amenitiesScrolling = false;
+const amenTrack = document.getElementById('amenitiesTrack');
+function autoScrollAmenities() {
+  if (!amenitiesScrolling) {
+    amenTrack.scrollLeft += 1;
+    if (amenTrack.scrollLeft >= amenTrack.scrollWidth - amenTrack.clientWidth) amenTrack.scrollLeft = 0;
+  }
+}
+amenTrack.addEventListener('mouseenter', () => amenitiesScrolling = true);
+amenTrack.addEventListener('mouseleave', () => amenitiesScrolling = false);
+setInterval(autoScrollAmenities, 30);
+
+// =================== PARALLAX ===================
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  document.querySelectorAll('.about-img').forEach(img => {
+    img.style.transform = `scale(1.1) translateY(${scrollY * 0.03}px)`;
+  });
+});
+
+// =================== MAGNETIC BUTTONS ===================
+document.querySelectorAll('.btn-primary, .btn-outline, .nav-cta').forEach(btn => {
+  btn.addEventListener('mousemove', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    this.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+  });
+  btn.addEventListener('mouseleave', function() {
+    this.style.transform = '';
+  });
+});
+</script>
+
+</body>
+</html>
